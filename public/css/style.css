@@ -105,6 +105,17 @@ body{
     border: none !important;
 }
 
+.signup-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+.login-btn{
+    background-color: #fe424d !important;
+    border: none !important;
+}
+
+
 /* Show-Page */
 .show-img{
     height: 30vh;
@@ -122,6 +133,6 @@ body{
 /* Map */
 #map{
     height: 400px;
-    width: 90vh;
+    width: 100%;
 }
 

@@ -56,6 +56,52 @@
     transform: none;
     box-shadow: none;
   }
+
+/* ---------------- TABLET & MOBILE ---------------- */
+@media (max-width: 992px) {
+  #filters {
+    flex-wrap: nowrap;          /* prevent wrapping */
+    overflow-x: auto;           /* horizontal scroll */
+    white-space: nowrap;
+  }
+
+  #filters::-webkit-scrollbar {
+    display: none;              /* hide scrollbar */
+  }
+
+  .filter {
+    flex: 0 0 auto;
+    margin-right: 1.5rem;
+  }
+
+  .tax-toggle {
+    flex: 0 0 auto;
+    margin-left: 1rem;
+  }
+}
+
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 576px) {
+  .filter {
+    margin-top: 1rem;
+    margin-right: 1.2rem;
+  }
+
+  .filter p {
+    font-size: 0.7rem;
+  }
+
+  .tax-toggle {
+    height: auto;
+    padding: 0.6rem 0.8rem;
+  }
+
+  .tax-toggle label {
+    font-size: 0.75rem;
+  }
+}
+
+  
 </style>
 
 <body>

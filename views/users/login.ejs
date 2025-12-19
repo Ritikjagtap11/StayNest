@@ -1,5 +1,37 @@
 <% layout("/layouts/boilerplate") %>
+<style>
+  /* ---------------- LOGIN PAGE RESPONSIVE FIX ---------------- */
 
+/* Tablet & Mobile */
+@media (max-width: 992px) {
+
+  .offset-3 {
+    margin-left: 0 !important;
+  }
+
+  .col-6 {
+    width: 100% !important;
+  }
+
+  h1.col-6 {
+    text-align: center;
+  }
+}
+
+/* Mobile only */
+@media (max-width: 576px) {
+
+  .col-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  button.btn {
+    width: 100%;
+  }
+}
+
+</style>
 <div class="row mt-3">
     <h1 class="col-6 offset-3">Login</h1>
     <div class="col-6 offset-3">
@@ -26,7 +58,7 @@
                     />
                 </div>
 
-                <button class="btn btn-success">Login</button>
+                <button class="btn btn-success login-btn">Login</button>
         </form>
     </div>
 </div>

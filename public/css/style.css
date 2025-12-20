@@ -296,8 +296,16 @@ body {
   /* Fix Edit / Delete buttons alignment */
   .btns {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 12px;
+    margin-top: 1rem;
     gap: 1rem;
     padding-left: 1rem;
+  }
+  .btns a,
+  .btns form {
+    width: auto;
   }
 }
 

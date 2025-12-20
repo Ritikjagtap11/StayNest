@@ -1,16 +1,5 @@
 <% layout("/layouts/boilerplate") %>
-<style>
-  @media (max-width: 576px) {
-  h3 {
-    text-align: center;
-  }
 
-  .edit-btn {
-    width: 100%;
-  }
-}
-
-</style>
 <body>
   <div class="row mt-3">
     <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2">
@@ -52,8 +41,12 @@
         </div>
 
         <div class="mb-3">
-          Original Listing Image <br>
-          <img src="<%= originalImageUrl%>" alt="Original Listing Image" class="img-fluid rounded mt-2">
+          Original Listing Image <br />
+          <img
+            src="<%= originalImageUrl%>"
+            alt="Original Listing Image"
+            class="img-fluid rounded mt-2"
+          />
         </div>
 
         <div class="mb-3">

@@ -116,7 +116,7 @@ app.use((req, res, next) => {
 
 //ERROR HANDLER
 app.use((err, req, res, next) => {
-  console.log("🔥 ERROR DETAILS:", err); // 👈 ADD THIS
+  // console.log("🔥 ERROR DETAILS:", err); // 👈 ADD THIS
   let { statusCode = 500, message = "Something went wrong" } = err;
   res.status(statusCode).render("error.ejs", { message });
 });

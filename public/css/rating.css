@@ -285,3 +285,27 @@
   -webkit-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
 }
+
+/* RESPONSIVE */
+/* Default desktop size */
+.starability-result,
+.starability-heart {
+  transform: scale(1);
+  transform-origin: left center;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .starability-result,
+  .starability-heart {
+    transform: scale(0.9);
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .starability-result,
+  .starability-heart {
+    transform: scale(0.75);
+  }
+}

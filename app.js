@@ -127,3 +127,12 @@ app.use((err, req, res, next) => {
 app.listen(8080, () => {
   console.log("Server is listening on port 8080");
 });
+
+//zugad
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'Your API is running',
+    timestamp: new Date().toISOString()
+  });
+});

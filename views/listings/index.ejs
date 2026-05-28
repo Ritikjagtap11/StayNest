@@ -72,25 +72,38 @@
     </div>
   </div>
   <div class="row row-cols-lg-3 row-cols-md-3 row-cols-sm-1 mt-3">
-    <% for(let listing of allListings){ %>
-    <a href="/listings/<%=listing._id%>" class="listings-links">
-      <div class="card col mb-4 listing-card">
-        <img
-          src="<%= listing.image.url %>"
-          class="card-img-top"
-          alt="<%= listing.title %>"
-          style="height: 20rem; object-fit: cover"
-        />
-        <div class="card-img-overlay"></div>
-        <div class="card-body">
-          <p class="card-text">
-            <b> <%= listing.title %> </b><br />
-            &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-            <i class="tax-info"> &nbsp; &nbsp;+18 GST</i>
-          </p>
+    <% if(allListings.length === 0) { %>
+      <div class="col-12 text-center my-5 w-100">
+        <div class="card p-5 border-0 shadow-sm bg-light rounded-4">
+          <div class="card-body">
+            <i class="fa-regular fa-face-frown mb-3" style="font-size: 3.5rem; color: #fe424d;"></i>
+            <h3 class="fw-bold mb-2">No Destinations Found</h3>
+            <p class="text-muted mb-4">We couldn't find any listings matching "<%= locals.searchQuery || '' %>". Try searching for another country or city!</p>
+            <a href="/listings" class="btn btn-danger rounded-pill px-4">Clear Filters</a>
+          </div>
         </div>
       </div>
-    </a>
+    <% } else { %>
+      <% for(let listing of allListings){ %>
+      <a href="/listings/<%=listing._id%>" class="listings-links">
+        <div class="card col mb-4 listing-card">
+          <img
+            src="<%= listing.image.url %>"
+            class="card-img-top"
+            alt="<%= listing.title %>"
+            style="height: 20rem; object-fit: cover"
+          />
+          <div class="card-img-overlay"></div>
+          <div class="card-body">
+            <p class="card-text">
+              <b> <%= listing.title %> </b><br />
+              &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+              <i class="tax-info"> &nbsp; &nbsp;+18 GST</i>
+            </p>
+          </div>
+        </div>
+      </a>
+      <% } %>
     <% } %>
   </div>
 

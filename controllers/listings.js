@@ -4,7 +4,18 @@ maptilerClient.config.apiKey = process.env.MAP_API_KEY;
 
 
 module.exports.index = async (req, res) => {
-  const allListings = await Listing.find({});
+  let { search } = req.query;
+  let query = {};
+  if (search) {
+    query = {
+      $or: [
+        { title: { $regex: search, $options: "i" } },
+        { location: { $regex: search, $options: "i" } },
+        { country: { $regex: search, $options: "i" } }
+      ]
+    };
+  }
+  const allListings = await Listing.find(query);
   res.render("./listings/index.ejs", { allListings });
 };
 
@@ -31,9 +42,17 @@ module.exports.showListing = async (req, res) => {
 };
 
 module.exports.createListing = async (req, res, next) => {
-
-  // in an async function, or as a 'thenable':
-  const result = await maptilerClient.geocoding.forward(req.body.listing.location);
+  let coordinates = [77.209, 28.6139]; // Default coordinates (e.g. New Delhi, India)
+  try {
+    const result = await maptilerClient.geocoding.forward(req.body.listing.location);
+    if (result && result.features && result.features.length > 0) {
+      coordinates = result.features[0].center;
+    } else {
+      console.warn("Geocoding returned no features, using default coordinates.");
+    }
+  } catch (err) {
+    console.error("Geocoding failed:", err);
+  }
 
   let url = req.file.path;
   let filename = req.file.filename;
@@ -41,8 +60,8 @@ module.exports.createListing = async (req, res, next) => {
   newListing.owner = req.user._id;
   newListing.image = { url, filename };
   newListing.geometry = {
-  type: "Point",
-  coordinates: result.features[0].center   // always reliable
+    type: "Point",
+    coordinates: coordinates
   };
   let saveListing = await newListing.save();
   console.log(saveListing);

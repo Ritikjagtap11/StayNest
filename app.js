@@ -22,19 +22,24 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 
 
-const dburl = process.env.ATLASDB_URL;
+let dburl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/wonderlust";
 
-main()
-  .then(() => {
-    console.log("Connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-async function main() {
-  await mongoose.connect(dburl);
+async function connectDB() {
+  try {
+    await mongoose.connect(dburl);
+    console.log("Connected to MongoDB Atlas");
+    return mongoose.connection.getClient();
+  } catch (err) {
+    console.warn("⚠️ MongoDB Atlas connection failed. Falling back to Local MongoDB...", err.message);
+    dburl = "mongodb://127.0.0.1:27017/wonderlust";
+    await mongoose.disconnect();
+    await mongoose.connect(dburl);
+    console.log("Connected to Local MongoDB");
+    return mongoose.connection.getClient();
+  }
 }
+
+const clientPromise = connectDB();
 
 
 
@@ -53,8 +58,8 @@ app.use(methodOverride("_method"));
 // Mongo Store (CORRECT)
 // --------------------
 const store = MongoStore.create({
-  mongoUrl: dburl,               // ✅ MUST EXIST
-  secret: process.env.SECRET,    // ✅ STRING ONLY
+  clientPromise,                 // ✅ SHARED CLIENT PROMISE
+  secret: process.env.SECRET || "mysupersecretcode",    // ✅ STRING ONLY
   touchAfter: 24 * 3600,
 });
 
@@ -62,14 +67,18 @@ store.on("error", function (e) {
   console.log("SESSION STORE ERROR", e);
 });
 
+// Trust proxy (required for secure sessions behind HTTPS reverse proxies like Render/Heroku)
+app.set("trust proxy", 1);
+
 //SESSION + FLASH CONFIG
 const sessionOptions = {
   store,
-  secret: process.env.SECRET,
+  secret: process.env.SECRET || "mysupersecretcode",
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
     maxAge: 7 * 24 * 60 * 60 * 1000,
   }
@@ -95,6 +104,7 @@ app.use((req, res, next) => {
   res.locals.currUser = req.user;   //REQUIRED FOR AUTH
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.searchQuery = req.query.search || "";
   next();
 });
 
@@ -108,6 +118,24 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
 
+// Health check API (Moved before 404 handler)
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'OK',
+    message: 'Your API is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Privacy & Terms Static Info Pages (Prevent 404 from footer links)
+app.get('/privacy', (req, res) => {
+  res.render("privacy.ejs");
+});
+
+app.get('/terms', (req, res) => {
+  res.render("terms.ejs");
+});
+
 //PAGE NOT FOUND HANDLER
 app.use((req, res, next) => {
   next(new ExpressError(404, "Page not found"));
@@ -116,7 +144,13 @@ app.use((req, res, next) => {
 
 //ERROR HANDLER
 app.use((err, req, res, next) => {
-  // console.log("🔥 ERROR DETAILS:", err); // 👈 ADD THIS
+  // Ensure that common layout variables exist in res.locals to prevent secondary EJS rendering crashes
+  res.locals.currUser = req.user || null;
+  res.locals.success = req.flash ? req.flash("success") : [];
+  res.locals.error = req.flash ? req.flash("error") : [];
+  res.locals.searchQuery = req.query ? (req.query.search || "") : "";
+
+  console.log("🔥 ERROR DETAILS:", err); // 👈 ADD THIS
   let { statusCode = 500, message = "Something went wrong" } = err;
   res.status(statusCode).render("error.ejs", { message });
 });
@@ -126,13 +160,4 @@ app.use((err, req, res, next) => {
 //START SERVER
 app.listen(8080, () => {
   console.log("Server is listening on port 8080");
-});
-
-//zugad
-app.get('/api/health', (req, res) => {
-  res.json({
-    status: 'OK',
-    message: 'Your API is running',
-    timestamp: new Date().toISOString()
-  });
 });

@@ -1,4 +1,4 @@
-# 🏔️ StayNest — Premium Airbnb-Style Booking Platform
+# 🏔️ Wanderlust — Feel at Home. Everywhere. — Premium Airbnb-Style Booking Platform
 
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D%2020.0.0-blue.svg?style=for-the-badge&logo=node.js)](https://nodejs.org)
 [![Express Framework](https://img.shields.io/badge/express-v5.1.0-red.svg?style=for-the-badge&logo=express)](https://expressjs.com)
@@ -11,7 +11,7 @@
 
 ## 🎨 System Overview & Features
 
-StayNest transforms vacation listing and rental management by combining top-tier UI styling with optimized backend geocoding and security validation.
+Wanderlust transforms vacation listing and rental management by combining top-tier UI styling with optimized backend geocoding and security validation.
 
 ### 🌟 Key Features
 
@@ -28,7 +28,7 @@ StayNest transforms vacation listing and rental management by combining top-tier
 
 ## 💻 Tech Stack
 
-StayNest utilizes modern, high-performance web frameworks and tools:
+Wanderlust utilizes modern, high-performance web frameworks and tools:
 
 | Category | Technology / Library | Role in Application |
 | :--- | :--- | :--- |
@@ -159,7 +159,7 @@ Follow these simple steps to spin up the local development environment:
 
 ## 📸 Screenshots
 
-Here is a glimpse of StayNest's premium design aesthetics:
+Here is a glimpse of Wanderlust's premium design aesthetics:
 
 | 🏠 Exploration Hub | 🗺️ Detailed Property & Interactive Map |
 |:---:|:---:|
@@ -192,7 +192,7 @@ Here is a glimpse of StayNest's premium design aesthetics:
 
 ## 🌐 Deployment Guide
 
-You can deploy StayNest to production easily using **Render** or **Heroku**:
+You can deploy Wanderlust to production easily using **Render** or **Heroku**:
 
 1.  **Prepare App settings:**
     Ensure database URL and all Cloudinary credentials are set under the hosting provider's *Environment Variables* section.

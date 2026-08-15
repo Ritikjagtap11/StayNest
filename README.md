@@ -187,32 +187,6 @@ Visit:
 http://localhost:8080/listings
 ```
 
----
-
-## 📸 Screenshots
-
-### 🏠 Listings & Exploration
-
-*Add a screenshot showing the main listings/exploration page here.*
-
-### 🗺️ Property Details & Interactive Map
-
-*Add a screenshot showing the property details page with the interactive map here.*
-
-### ⭐ Reviews & Ratings
-
-*Add a screenshot showing the reviews and rating interface here.*
-
-### 📝 Create / Edit Listing
-
-*Add a screenshot showing the listing creation or editing form here.*
-
-> Screenshots can be added later using Markdown image syntax:
->
-> `![Wanderlust Screenshot](path-to-image)`
-
----
-
 ## 🛡️ Security & Validation
 
 Wanderlust implements several security and validation practices:
